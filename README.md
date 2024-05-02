@@ -55,19 +55,17 @@ Image('/content/images/Abyssinian_1.jpg')
 ```
  ![alt text](https://github.com/vasanthgx/petdataset_classification/blob/main/images/sample_cat.jpg)
 
-- We find from the evaluation of the dataset that all the features have null values.
-![alt text](https://github.com/vasanthgx/traffic_prediction/blob/main/images/dataset0.png)
+- Checking the size of the images and resizing them to a standard size
 
-- We have poor representation of the features 'rain_1h' and 'snow_1h' in the Dataset.
-![alt text](https://github.com/vasanthgx/traffic_prediction/blob/main/images/rain_snow.png)
+- converting the images and the labels to a numpy array
 
-- We have 3 category features 'holiday','weather_main', 'weather_description'.
-![alt text](https://github.com/vasanthgx/traffic_prediction/blob/main/images/category_feature.png)
 
-**Inference From the above Dataset**
-![alt text](https://github.com/vasanthgx/traffic_prediction/blob/main/images/dataset_inference.png)
+- Splitting the data into training and test datasets and training a classifier.
 
-### Visualization - Univariate analysis
+
+
+
+### Creating a Segmentation Mask using the Skimage library
 
 - Let us further explore the data distribution of each of the 4 numerical features plus the target of the data 'traffic_volume'.
 ![alt text](https://github.com/vasanthgx/traffic_prediction/blob/main/images/trafficVol_temp_univariate.png)
