@@ -38,7 +38,22 @@ Researchers and practitioners often use the Oxford-IIIT Pet Dataset for tasks su
 
 ## Evaluation and Results
 
-### Exploring the dataset statsitics
+### Downloading and unzipping the dataset
+```
+!wget http://www.robots.ox.ac.uk/~vgg/data/pets/data/images.tar.gz
+!wget http://www.robots.ox.ac.uk/~vgg/data/pets/data/annotations.tar.gz
+
+!tar zxvf images.tar.gz
+!tar zxvf annotations.tar.gz
+
+```
+- viewing an image file from the downloaded images folder
+```
+from IPython.display import Image
+Image('/content/images/Abyssinian_1.jpg')
+
+```
+ ![alt text](https://github.com/vasanthgx/petdataset_classification/blob/main/images/sample_cat.jpg)
 
 - We find from the evaluation of the dataset that all the features have null values.
 ![alt text](https://github.com/vasanthgx/traffic_prediction/blob/main/images/dataset0.png)
