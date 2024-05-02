@@ -14,24 +14,26 @@
 
 ## Implementation Details
 
-- Dataset: Metro Interstate Traffic Volume Dataset (view below for more details)
-- Model: [HistGradientBoostingRegressor]('https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.HistGradientBoostingRegressor.html')
-- Input: 8 features - Holiday, Temp, Weather Description ...
-- Output: Traffic Volume.
+- Dataset: The Oxford-IIIT Pet Dataset (view below for more details)
+- Model: [MobileNetV2]('https://keras.io/api/applications/mobilenet/')
+- Input: 37 category pet dataset with roughly 200 images for each class
+- Output: Segmentation mask , Breed classification
 
 ## Dataset Details
 
-[This dataset was obtained from this repository](https://archive.ics.uci.edu/ml/datasets/Metro+Interstate+Traffic+Volume)
+[This dataset was obtained from this repository](https://www.robots.ox.ac.uk/~vgg/data/pets/)
 
-Metro Interstate Traffic Volume  dataset is a collection of traffic volume data observed on a section of interstate highway in the Minneapolis-St Paul metropolitan area in Minnesota, USA. This dataset includes hourly traffic volume measurements along with corresponding attributes such as date, time, weather conditions, and holiday indicators. The data spans from 2012 to 2018, providing a comprehensive view of traffic patterns over several years. This dataset is valuable for studying and predicting traffic volume fluctuations based on various factors, making it suitable for machine learning tasks such as regression and time series analysis.
+The Oxford-IIIT Pet Dataset is a widely used collection of images containing various breeds of cats and dogs. It was created by the Visual Geometry Group at the University of Oxford and the IIIT Delhi. The dataset consists of over 7,000 images of pets belonging to 37 different categories, with each category representing a specific breed.
+Each image in the dataset is annotated with bounding boxes and class labels, making it suitable for tasks such as object detection and classification. The dataset provides a diverse range of poses, backgrounds, and lighting conditions, making it valuable for training and evaluating computer vision algorithms.
+Researchers and practitioners often use the Oxford-IIIT Pet Dataset for tasks such as fine-grained classification, instance segmentation, and pose estimation. Its availability and richness make it a benchmark dataset in the field of computer vision, contributing to advancements in pet recognition technology and beyond.
 
-### Varibles Table of the above dataset
+### Dog and Cat Breeds in the dataset
 
- ![alt text](https://github.com/vasanthgx/traffic_prediction/blob/main/images/dataset1.png)
+ ![alt text](https://github.com/vasanthgx/petdataset_classification/blob/main/images/dataset_stats.png)
 
-### Additional Variable Information
+### Annotation Examples from the dataset
 
- ![alt text](https://github.com/vasanthgx/traffic_prediction/blob/main/images/dataset2.png)
+ ![alt text](https://github.com/vasanthgx/petdataset_classification/blob/main/images/annotation_examples.png)
 
 
 ## Evaluation and Results
