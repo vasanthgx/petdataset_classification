@@ -159,10 +159,8 @@ def normalize_img(data):
 
 #### Model Building
 
-	- We first use the MobileNetV2 architecture.
-	- MobileNetV2 is very similar to the original MobileNet, except that it uses inverted residual blocks with bottlenecking features.
-	It has a drastically lower parameter count than the original MobileNet.
-	MobileNets support any input size greater than 32 x 32, with larger image sizes offering better performance.
+- We first use the MobileNetV2 architecture.
+- MobileNetV2 is very similar to the original MobileNet, except that it uses inverted residual blocks with bottlenecking features.It has a drastically lower parameter count than the original MobileNet. MobileNets support any input size greater than 32 x 32, with larger image sizes offering better performance.
 	
 [This is the link for the reference paper](https://arxiv.org/abs/1801.04381) for the MobileNetV2 pretrained model that we are using for our application
 		
