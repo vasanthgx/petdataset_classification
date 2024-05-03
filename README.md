@@ -134,6 +134,7 @@ In an image classification task, the network assigns a label (or class) to each 
 		- Object(foreground)
 		- Background
 		- Ambiguous Region
+		
 ![alt text](https://github.com/vasanthgx/petdataset_classification/blob/main/images/segmask-tf-1.png)
 
 - Pre-processing 
@@ -161,11 +162,13 @@ def normalize_img(data):
 	- MobileNetV2 is very similar to the original MobileNet, except that it uses inverted residual blocks with bottlenecking features.
 	It has a drastically lower parameter count than the original MobileNet.
 	MobileNets support any input size greater than 32 x 32, with larger image sizes offering better performance.
-		- [This is the link for the reference paper for the MobileNetV2 pretrained model that we are using for our application](https://arxiv.org/abs/1801.04381)
+	
+[This is the link for the reference paper for the MobileNetV2 pretrained model that we are using for our application](https://arxiv.org/abs/1801.04381)
 		
-		- [This is link for the reference paper for the MobileNets : Efficient Convolutional Neural Networks for Mobile vision Applications](https://arxiv.org/abs/1704.04861)
+[This is link for the reference paper for the MobileNets : Efficient Convolutional Neural Networks for Mobile vision Applications](https://arxiv.org/abs/1704.04861)
 		
-		- [Keras provides the MobileNetv2() function](https://www.tensorflow.org/api_docs/python/tf/keras/applications/MobileNetV2),
+[Keras provides the MobileNetv2() function](https://www.tensorflow.org/api_docs/python/tf/keras/applications/MobileNetV2)
+
 		which returns a  Keras image classification model, optionally loaded with weights pre-trained on ImageNet.
 		
 ```
