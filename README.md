@@ -16,7 +16,7 @@
 1) [Introduction](##Introduction)
 2) [Project Overview](##ProjectOverview)
 3) [Key Features](##Key Features)
-4) [FAQ](##FAQ)
+4) [FAQ](FAQ)
 
 
 
@@ -36,7 +36,7 @@ n this project, we have developed a machine learning pipeline that combines stat
 - **End-to-End Pipeline**: Our project provides a seamless end-to-end solution for image segmentation and breed classification, enabling users to input raw images and obtain detailed segmentation masks along with breed predictions.
 - **Model Deployment**: We have deployed the project in HuggingSpaces through Gradio Application.
 
-
+![alt text](https://github.com/vasanthgx/petdataset_classification/blob/main/images/gradio.png)
 
 ## Implementation Details
 
