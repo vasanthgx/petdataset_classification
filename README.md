@@ -155,7 +155,7 @@ def normalize_img(data):
 		- [This is the link for the reference paper for the MobileNetV2 pretrained model that we are using for our application](https://arxiv.org/abs/1801.04381)
 		- [This is link for the reference paper for the MobileNets : Efficient Convolutional Neural Networks for Mobile vision Applications](https://arxiv.org/abs/1704.04861)
 		- [Keras provides the MobileNetv2() function](https://www.tensorflow.org/api_docs/python/tf/keras/applications/MobileNetV2), which returns a  Keras image classification model, optionally loaded with weights pre-trained on ImageNet.
-		```
+```
 		tf.keras.applications.MobileNetV2(
 		input_shape=None,
 		alpha=1.0,
@@ -167,7 +167,7 @@ def normalize_img(data):
 		classifier_activation='softmax'
 	)
 		
-		```
+```
 	
 	- we build a base model using the above MobileNetv2 pretrained model.
 	- Next we freeze the output of the different layers of the above CNN, to be used later as part the decoding(up-sampling) of the U-Net[see FAQ section for more details ]  architecture
@@ -182,13 +182,14 @@ def normalize_img(data):
 	![alt text](https://github.com/vasanthgx/petdataset_classification/blob/main/images/params.png)
 	
 	- We finally fit the model with the training dataset and run it for 10 epochs
-	```
+	
+```
 	history = model.fit(
     ds_train,
     epochs=10,
     validation_data=ds_test,
 							)
-	```
+```
 	- Comparing the training loss with the validation loss along with the epochs
 	
 	![alt text](https://github.com/vasanthgx/petdataset_classification/blob/main/images/epochs.png)
