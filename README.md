@@ -182,23 +182,19 @@ def normalize_img(data):
 		
 ```
 	
-	- we build a base model using the above MobileNetv2 pretrained model.
-	- Next we freeze the output of the different layers of the above CNN, 
-	to be used later as part the decoding(up-sampling) of the U-Net[see FAQ section for more details ]  architecture
-	- Next we make use of Pix2Pix model, which is a conditional generative adversarial network (GAN) 
-	architecture that learns a mapping from an input image to an output image. We build a upsampling model with this architecture.
-	- Next we make combine both the base model(down_stack - encoder ) and upsampling model (up_stack - decoder )
-	to build a U-Net architecturej,which is as follows
+- we build a base model using the above MobileNetv2 pretrained model.
+- Next we freeze the output of the different layers of the above CNN, to be used later as part the decoding(up-sampling) of the U-Net[see FAQ section for more details ]  architecture
+- Next we make use of Pix2Pix model, which is a conditional generative adversarial network (GAN) architecture that learns a mapping from an input image to an output image. We build a upsampling model with this architecture.
+- Next we make combine both the base model(down_stack - encoder ) and upsampling model (up_stack - decoder )to build a U-Net architecturej,which is as follows
 	
 ![alt text](https://github.com/vasanthgx/petdataset_classification/blob/main/images/unet.png)
 	
-	The U-Net architecture is characterized by its symmetric encoder-decoder structure,
-	which enables the network to capture both local and global features while preserving spatial information.
-	- Building a model using the above U-Net architecture, gives us a model with the following parameters
+- The U-Net architecture is characterized by its symmetric encoder-decoder structure,which enables the network to capture both local and global features while preserving spatial information.
+- Building a model using the above U-Net architecture, gives us a model with the following parameters
 	
 ![alt text](https://github.com/vasanthgx/petdataset_classification/blob/main/images/params.png)
 	
-	- We finally fit the model with the training dataset and run it for 10 epochs
+- We finally fit the model with the training dataset and run it for 10 epochs
 	
 ```
 	history = model.fit(
@@ -290,21 +286,7 @@ def normalize_img(data):
 
 ## Key Takeaways
 
-After the hackathon process, key takeaways include:
-
-1. **Data Exploration is Crucial**: Understanding the dataset thoroughly is essential before building any machine learning model. Exploratory data analysis helps in identifying patterns, outliers, and relationships within the data.
-
-2. **Feature Engineering Matters**: Creating meaningful features from the existing data can significantly improve model performance. Techniques like encoding categorical variables, creating new features from datetime data, and scaling numerical features might be beneficial.
-
-3. **Model Selection and Tuning**: Experimenting with various machine learning algorithms and hyperparameters can lead to improved performance. Techniques like cross-validation and hyperparameter tuning help in selecting the best model configuration.
-
-4. **Evaluation Metrics**: Choosing the right evaluation metric based on the problem domain is crucial. In regression tasks like traffic volume prediction, metrics like Mean Absolute Error (MAE), Mean Squared Error (MSE), or Root Mean Squared Error (RMSE) are commonly used to evaluate model performance.
-
-5. **Interpreting Model Results**: Understanding how the model makes predictions and the importance of different features can provide valuable insights into the problem domain. Techniques like feature importance analysis help in understanding which features contribute most to the model's predictions.
-
-6. **Continuous Learning**: Hackathons are great learning experiences, and reflecting on what worked well and what could be improved prepares you for future challenges. Continuous learning and experimentation are key to mastering machine learning techniques.
-
-Overall, participating in hackathons provides valuable hands-on experience in solving real-world problems using machine learning techniques. 
+ 
 
 
 ## How to Run
