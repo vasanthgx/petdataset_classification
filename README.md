@@ -235,12 +235,12 @@ def normalize_img(data):
 
 ![alt text](https://github.com/vasanthgx/petdataset_classification/blob/main/images/fastai-1.png)
 
-- Model Training with  resnet34 function from fastai library
+- Model Training with  **resnet34** function from fastai library
 	- fine tuning with 3 epochs. We get the following error rates
 	
 	![alt text](https://github.com/vasanthgx/petdataset_classification/blob/main/images/er1.png)
 	
-- Next we train with a different model from the timm library - 'convnext_tiny_in22k'
+- Next we train with a different model from the timm library - **'convnext_tiny_in22k'**
 	- fine tuning with 3 epochs. We get better results than the previous one.
 	
 	![alt text](https://github.com/vasanthgx/petdataset_classification/blob/main/images/er2.png)
