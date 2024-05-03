@@ -6,10 +6,36 @@
 # Project Title
 
 
-**Image Segmentaion with Breed Classification**
+**Image Segmentaion with Breed Classification ML Project**
  <img src="https://github.com/Anmol-Baranwal/Cool-GIFs-For-GitHub/assets/74038190/b3fef2db-e671-4610-bb84-1d65533dc5fb" width="300" align='right'>
 
 <br><br>
+
+
+# Table of Contents
+1) [Introduction](##Introduction)
+2) [Project Overview](##ProjectOverview)
+3) [Key Features](##Key Features)
+4) [FAQ](##FAQ)
+
+
+
+## Introduction
+
+This project aims to demonstrate the application of machine learning techniques in two key areas of computer vision: image segmentation and breed classification. Image segmentation involves partitioning an image into multiple segments or regions to simplify its representation and facilitate further analysis. Breed classification, on the other hand, focuses on identifying the breed of animals depicted in images, in our case, dogs.
+
+
+## Project Overview
+
+n this project, we have developed a machine learning pipeline that combines state-of-the-art techniques for image segmentation and breed classification. The pipeline processes input images of dogs, performs semantic segmentation to identify distinct regions within the images, and subsequently classifies the breed of the dog present in each segmented region.
+
+## Key Features
+
+- **Image Segmentation**: We utilize advanced convolutional neural network (CNN) architectures to perform semantic segmentation, enabling precise delineation of different objects or regions within the input images.
+- **Breed Classification**: Leveraging transfer learning, we fine-tune pre-trained CNN models to classify the breed of dogs present in the segmented regions. This allows us to achieve high accuracy even with limited training data.
+- **End-to-End Pipeline**: Our project provides a seamless end-to-end solution for image segmentation and breed classification, enabling users to input raw images and obtain detailed segmentation masks along with breed predictions.
+- **Model Deployment**: We have deployed the project in HuggingSpaces through Gradio Application.
+
 
 
 ## Implementation Details
@@ -90,25 +116,39 @@ Multi-Otsu calculates several thresholds, determined by the number of desired cl
 
 
 
+### Object Segmentation using Convolutional Neural Networks using [TensorFlow Datasets](https://www.tensorflow.org/datasets/overview)
+
+#### What is Image Segmentaion?( more details in FAQ section)
+In an image classification task, the network assigns a label (or class) to each input image. However, suppose you want to know the shape of that object, which pixel belongs to which object, etc. In this case, you need to assign a class to each pixel of the image—this task is known as segmentation. A segmentation model returns much more detailed information about the image. Image segmentation has many applications in medical imaging, self-driving cars and satellite imaging, just to name a few.
 
 
 
+- [Loading Dataset and Exploration](https://www.tensorflow.org/datasets/catalog/oxford_iiit_pet)
 
 
+- Exploring sizes and values in dataset
+- Displaying the dataset - image along with the Mask and the 3 types of annotated masks
+	- Mask Interpretation
+		- Object(foreground)
+		- Background
+		- Ambiguous Region
+![alt text](https://github.com/vasanthgx/petdataset_classification/blob/main/images/segmask-tf-1.png)
 
-- Next we will explore the Categorical features 'holiday', and 'weather_main'.
+- Pre-processing 
+	- Normalize : we use the tf.cast( ) function to convert the images and masks  to float32 type and then divide them by 255.
+```
 
+def normalize_img(data):
+  """Normalizes images: `uint8` -> `float32`."""
+  image = data['image']
+  mask = data['segmentation_mask']
+  image = tf.image.resize(image, [128, 128])
+  mask = tf.image.resize(mask, [128, 128], method='nearest')
+  image = tf.cas
+```
 
-![alt text](https://github.com/vasanthgx/traffic_prediction/blob/main/images/holiday_graph.png)
-![alt text](https://github.com/vasanthgx/traffic_prediction/blob/main/images/trafficVol_temp_univariate.png)
+- Model Building
 
-### Visualization - Bivariate analysis
-
-- Clouds All feature vs Traffic Volume
-![alt text](https://github.com/vasanthgx/traffic_prediction/blob/main/images/clouds_all_vs_traffic_volume_graph.png)
-
-- Weather Main feature vs Traffic Volume
-![alt text](https://github.com/vasanthgx/traffic_prediction/blob/main/images/weather_main_vs_traffic_volume_graph.png)
 
 
 
@@ -301,46 +341,57 @@ The significance of Otsu thresholding in object segmentation lies in its ability
 
 
 
-### 2) How do you train the model on a new dataset?
+### 2) What are Neural Networks ?
 
-To train the `HistGradientBoostingRegressor` model on a new dataset, you need to follow these general steps:
+Neural networks are a class of machine learning algorithms inspired by the structure and function of the human brain's biological neural networks. These artificial neural networks (ANNs) consist of interconnected nodes, called neurons, organized into layers. Each neuron receives input signals, performs a computation, and then passes the result to the neurons in the next layer.
 
-1. **Prepare the Data**: Ensure your new dataset is properly preprocessed and formatted. This includes handling missing values, encoding categorical variables, and splitting the data into features (X) and target variable (y).
+Components of a neural network:
 
-2. **Import the Necessary Libraries**: Import the required libraries, including `HistGradientBoostingRegressor` from scikit-learn and any other libraries needed for data preprocessing and evaluation.
-
-3. **Instantiate the Model**: Create an instance of the `HistGradientBoostingRegressor` model. You can optionally specify hyperparameters during instantiation, or you can use the default settings.
-
-4. **Fit the Model to the Data**: Use the `fit()` method of the model to train it on your new dataset. Pass the features (X) and the corresponding target variable (y) to this method.
-
-5. **Evaluate Model Performance (Optional)**: After training, evaluate the performance of the model on a separate validation dataset (if available). Use appropriate evaluation metrics such as Mean Absolute Error (MAE), Mean Squared Error (MSE), or others to assess how well the model generalizes to new data.
-
-6. **Make Predictions (Optional)**: Once trained, you can use the trained model to make predictions on new, unseen data. Use the `predict()` method and pass the new features as input to get the predicted target variable values.
+1) **Input Layer**: This layer receives the input data. Each neuron in this layer represents a feature of the input data.
+2) **Hidden Layers**: These are intermediary layers between the input and output layers. Each neuron in a hidden layer takes input from the previous layer, performs a computation using weights and biases, applies an activation function, and passes the result to the neurons in the next layer. Deep neural networks have multiple hidden layers, hence the term "deep" learning.
+3) **Output Layer**: This layer produces the final output of the network. The number of neurons in the output layer depends on the type of task the neural network is designed for. For example, in a binary classification task, there would typically be one neuron in the output layer, while in a multi-class classification task, there would be one neuron for each class.
+4) **Weights and Biases**: Neural networks learn from data by adjusting the weights and biases associated with each neuron's connections. These parameters determine the strength of connections between neurons and affect the output of each neuron.
+5) **Activation Functions**: Activation functions introduce non-linearities into the network, allowing it to learn complex patterns in the data. Common activation functions include ReLU (Rectified Linear Unit), Sigmoid, and Tanh.
 
 
-Adjust the code according to your specific dataset and requirements. Ensure proper data preprocessing, hyperparameter tuning, and evaluation for optimal model performance.
+**Neural networks are trained using optimization algorithms such as gradient** and its variants, which adjust the weights and biases to minimize a loss function. During training, the network learns to make predictions by iteratively updating its parameters based on the comparison between its predictions and the ground truth labels in the training data.
 
-### 3) How to you improve make the model more generalized ?
+Neural networks, especially deep neural networks, have shown remarkable performance in various tasks such as image recognition, natural language processing, speech recognition, and many more, making them a cornerstone of modern artificial intelligence and machine learning.
 
-To improve the generalization of a machine learning model, including the `HistGradientBoostingRegressor`, you can consider several strategies:
 
-1. **Cross-Validation**: Utilize techniques like k-fold cross-validation to assess the model's performance on multiple subsets of the data. This helps in obtaining a more reliable estimate of the model's performance and ensures that it generalizes well to unseen data.
 
-2. **Feature Engineering**: Carefully engineer and select features that are most relevant to the prediction task. This includes identifying and removing irrelevant or redundant features, creating new features that capture useful information, and transforming features to better suit the model assumptions.
 
-3. **Regularization**: Apply regularization techniques such as shrinkage (learning rate) and tree pruning to prevent overfitting. Adjusting the regularization parameters can help control the complexity of the model and improve its ability to generalize.
+### 3) Can you explain Convolutional Neural Networks ?
 
-4. **Hyperparameter Tuning**: Experiment with different hyperparameters of the model, such as the number of trees, maximum depth of trees, and minimum samples per leaf. Grid search or randomized search techniques can be employed to find the optimal combination of hyperparameters that yield the best performance on a validation dataset.
+Convolutional Neural Networks (CNNs) are a specialized type of neural network designed specifically for processing structured grid data, such as images. They are highly effective for tasks like image recognition, object detection, and image classification. CNNs are inspired by the organization of the animal visual cortex, where individual neurons respond to specific stimuli in a restricted region of the visual field.
 
-5. **Ensemble Methods**: Consider using ensemble methods like bagging and boosting to combine multiple models trained on different subsets of the data. Ensemble methods often lead to better generalization by reducing the variance of the model predictions.
+Components and concepts in CNNs:
 
-6. **Data Augmentation (if applicable)**: For certain types of data, such as image or text data, data augmentation techniques can be employed to increase the diversity of the training data. This can help the model generalize better by exposing it to a wider range of variations in the input data.
+1) **Convolutional Layers**: The fundamental building blocks of CNNs are convolutional layers. Each convolutional layer consists of a set of learnable filters (also known as kernels or convolutional kernels). These filters slide or convolve across the input image, performing element-wise multiplication with the pixel values in the region they cover and then summing up the results to produce a feature map. This process captures spatial hierarchies of patterns in the input image.
+2) **Pooling Layers**: Pooling layers are used to downsample the feature maps generated by convolutional layers. The most common pooling operation is max-pooling, which selects the maximum value from a region of the feature map. Pooling helps in reducing the spatial dimensions of the feature maps, making the network more computationally efficient and reducing overfitting by extracting the most salient features.
+3) **Activation Functions**: Activation functions, such as ReLU (Rectified Linear Unit), are applied after convolutional and pooling operations to introduce non-linearity into the network. This allows the CNN to learn complex patterns and relationships in the data.
+4) **Fully Connected Layers**: Towards the end of the CNN architecture, one or more fully connected layers are typically used to perform classification or regression tasks. These layers connect every neuron in one layer to every neuron in the next layer, allowing the network to learn high-level representations of the input data.
+5) **Convolutional Neural Network Architecture**: CNN architectures vary depending on the specific task and dataset. Common architectures include LeNet, AlexNet, VGGNet, GoogLeNet (Inception), ResNet, and more. These architectures differ in terms of the number of layers, types of layers, and the arrangement of those layers.
+6) **Training**: CNNs are trained using backpropagation and optimization algorithms like stochastic gradient descent (SGD) or its variants. During training, the network learns to adjust the weights of its filters and fully connected layers to minimize a predefined loss function, typically categorical cross-entropy for classification tasks.
 
-7. **Early Stopping**: Monitor the model's performance on a validation dataset during training and stop training when the performance starts deteriorating. This prevents overfitting and ensures that the model is not trained for too many iterations, which can lead to memorizing the training data.
 
-8. **Model Selection**: Experiment with different machine learning algorithms and architectures to find the one that best suits the problem at hand. It's essential to choose a model that strikes a balance between complexity and simplicity and can capture the underlying patterns in the data without overfitting.
 
-By implementing these strategies, you can improve the generalization performance of the `HistGradientBoostingRegressor` model and ensure that it performs well on unseen data.
+
+CNNs have revolutionized the field of computer vision and have achieved state-of-the-art performance on various image-related tasks, including image classification, object detection, image segmentation, and more. They have also been adapted for other types of structured data, such as time-series data and 1D signal processing.
+
+### 4) What is U-Net arhitecture ?
+
+U-Net is a popular convolutional neural network architecture designed for semantic segmentation tasks, particularly in medical image analysis, where precise pixel-level segmentation is required. It was introduced by Olaf Ronneberger, Philipp Fischer, and Thomas Brox in their [2015 paper titled](https://arxiv.org/abs/1505.04597) **"U-Net: Convolutional Networks for Biomedical Image Segmentation."**
+
+The U-Net architecture is characterized by its symmetric encoder-decoder structure, which enables the network to capture both local and global features while preserving spatial information. Here's an overview of its key components:
+
+1) **Encoder Path**: The encoder path is composed of multiple convolutional blocks followed by max-pooling layers. These convolutional blocks perform feature extraction, gradually reducing the spatial dimensions of the input image while increasing the number of feature channels. Each convolutional block typically consists of convolutional layers, activation functions (such as ReLU), and optionally batch normalization to stabilize training.
+2) **Decoder Path**: The decoder path mirrors the encoder path but in reverse. It consists of up-sampling layers (often transposed convolutions or bilinear upsampling) followed by concatenation with feature maps from the corresponding encoder path. These concatenated feature maps are then passed through convolutional blocks, which gradually increase the spatial dimensions while decreasing the number of feature channels. The goal of the decoder path is to recover the spatial details lost during the encoding stage.
+3) **Skip Connections**: One of the key innovations of U-Net is the extensive use of skip connections between the encoder and decoder paths. These skip connections directly connect feature maps from the encoder to the corresponding decoder layers at the same spatial resolution. By providing high-resolution feature maps from earlier layers to later layers, skip connections help the network preserve fine-grained details and improve segmentation accuracy.
+4) **Final Layer**: The final layer of the U-Net architecture typically consists of a 1x1 convolutional layer followed by a softmax activation function. This layer generates the segmentation mask by predicting the probability of each pixel belonging to the target classes. The output mask has the same spatial dimensions as the input image, with each pixel assigned a class label or probability score.
+5) **Loss Function**: U-Net is trained using a pixel-wise loss function, such as cross-entropy loss or Dice loss, which measures the discrepancy between the predicted segmentation mask and the ground truth mask. The network parameters are optimized using gradient descent-based algorithms, such as Adam or stochastic gradient descent (SGD).
+
+U-Net has become a popular choice for various medical image segmentation tasks, including organ segmentation, tumor detection, cell segmentation, and more. Its symmetric architecture, skip connections, and pixel-wise loss function make it well-suited for tasks requiring precise and detailed segmentation of structures within images.
 
 
 ## Acknowledgements
