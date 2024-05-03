@@ -220,22 +220,49 @@ def normalize_img(data):
 	
 	```
 - Data display 
+
 ![alt text](https://github.com/vasanthgx/petdataset_classification/blob/main/images/fastai-1.png)
 
 - Model Training with  resnet34 function from fastai library
 	- fine tuning with 3 epochs. We get the following error rates
+	
 	![alt text](https://github.com/vasanthgx/petdataset_classification/blob/main/images/er1.png)
+	
 - Next we train with a different model from the timm library - 'convnext_tiny_in22k'
 	- fine tuning with 3 epochs. We get better results than the previous one.
+	
 	![alt text](https://github.com/vasanthgx/petdataset_classification/blob/main/images/er2.png)
+	
 - Evaluation of the classifier 
 	- with a basset hound breed of dog
+	
 	![alt text](https://github.com/vasanthgx/petdataset_classification/blob/main/images/basset.png)
+	
 	- prediction as below
+	
 	![alt text](https://github.com/vasanthgx/petdataset_classification/blob/main/images/99.png)
 	
 	
+### Model Deployment
+
+- Building a Gradio Application and hosting it on Huggingface/Spaces
+	- Gradio is an open-source Python library that allows developers to quickly create and deploy interactive web-based interfaces for machine learning models. It simplifies the process of building user interfaces for ML applications, enabling users to interact with models through web browsers without requiring any knowledge of web development.
+	- Within Hugging Face, Spaces refer to a platform for hosting interactive machine learning (ML) demo applications. It allows users to easily showcase their work, collaborate with others, and create a portfolio of their ML projects.
+	```
+	import gradio as gr
+	image = gr.Image()
+    label = gr.Label(num_top_classes=5)
+	intf = gr.Interface(fn=classify_image, inputs=image, outputs=label, examples=examples)
+	intf.launch()
 	
+	```
+- Breed Classifier application
+
+	![alt text](https://github.com/vasanthgx/petdataset_classification/blob/main/images/gradio2.png)
+	
+
+
+
 	
 
 
