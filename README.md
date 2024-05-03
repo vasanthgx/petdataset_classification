@@ -286,7 +286,11 @@ def normalize_img(data):
 
 ## Key Takeaways
 
- 
+ 1) **Architecture Selection** : The choice of architecture plays a crucial role in the success of the project. U-Net architecture is well-suited for image segmentation tasks, especially when precise delineation of objects or regions is required. On the other hand, ResNet-34 is a popular choice for image classification tasks due to its balance between depth and computational efficiency.
+2) **Data Preparation and Augmentation**: Proper data preparation and augmentation are essential for training robust models. In image segmentation, labeled data with accurate pixel-level annotations are required, while in breed classification, labeled images with breed annotations are necessary. Augmentation techniques such as rotation, scaling, and flipping can help increase the diversity of the training data and improve the generalization of the models.
+3) **Transfer Learning and Pre-trained Models**: Leveraging pre-trained models can significantly accelerate the training process and improve model performance, especially when dealing with limited training data. Transfer learning techniques, such as fine-tuning pre-trained models like ResNet-34 using FastAI or Timm libraries, allow the models to adapt to the specific characteristics of the dataset while retaining the knowledge learned from large-scale datasets.
+4) **Evaluation Metrics and Performance Analysis**: Choosing appropriate evaluation metrics is crucial for assessing the performance of the models accurately. For image segmentation tasks, metrics such as Intersection over Union (IoU) or Dice Coefficient are commonly used to measure the overlap between predicted and ground truth masks. For breed classification, metrics like accuracy, precision, recall, and F1-score are typically used to evaluate classification performance.
+5) **Deployment and Integration**: Once the models are trained and evaluated, deploying them into production environments requires careful consideration of factors such as scalability, latency, and integration with existing systems. FastAI and Timm libraries provide deployment options such as exporting models to ONNX format or integrating them into web applications using frameworks like Flask or FastAPI. Additionally, TensorFlow Serving can be used for serving TensorFlow models in production environments.
 
 
 ## How to Run
@@ -313,7 +317,7 @@ The next steps would be
 
 **Language:** Python
 
-**Packages:** Sklearn, Matplotlib, Pandas, Seaborn
+**Packages:** Sklearn, Matplotlib, fastai, mobilenetv2, pix2pix, timm
 
 
 ## FAQ
@@ -411,9 +415,10 @@ U-Net has become a popular choice for various medical image segmentation tasks, 
 ## Acknowledgements
 
 
- - [Metro Interstate Traffic](https://www.kaggle.com/datasets/rgupta12/metro-interstate-traffic-volume/code)
- - [Finding indicators for high traffic volume](https://www.kaggle.com/code/roberttareen/finding-indicators-for-high-traffic-on-i-94)
- - [Time Series Analysis](https://www.analyticsvidhya.com/blog/2021/10/a-comprehensive-guide-to-time-series-analysis/)
+ - [Tensorflow datasets](https://www.tensorflow.org/datasets/overview)
+ - [Image Segmentaion](https://www.tensorflow.org/tutorials/images/segmentation)
+ - [Gradio crash course](https://www.youtube.com/watch?v=eE7CamOE-PA&list=LL&index=2)
+ - [TensorFlow tutorials](https://www.youtube.com/playlist?list=PLQY2H8rRoyvwWuPiWnuTDBHe7I0fMSsfO)
 
 
 ## Contact
