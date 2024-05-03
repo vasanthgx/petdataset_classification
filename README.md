@@ -64,7 +64,9 @@ Researchers and practitioners often use the Oxford-IIIT Pet Dataset for tasks su
 
 ## Evaluation and Results
 
-### Downloading and unzipping the dataset
+### Building a Classification model with Scikit Learn
+
+- Downloading and unzipping the dataset
 ```
 !wget http://www.robots.ox.ac.uk/~vgg/data/pets/data/images.tar.gz
 !wget http://www.robots.ox.ac.uk/~vgg/data/pets/data/annotations.tar.gz
@@ -118,12 +120,12 @@ Multi-Otsu calculates several thresholds, determined by the number of desired cl
 
 ### Object Segmentation using Convolutional Neural Networks using [TensorFlow Datasets](https://www.tensorflow.org/datasets/overview)
 
-#### What is Image Segmentaion?( more details in FAQ section)
+ **What is Image Segmentaion?( more details in FAQ section)**
 In an image classification task, the network assigns a label (or class) to each input image. However, suppose you want to know the shape of that object, which pixel belongs to which object, etc. In this case, you need to assign a class to each pixel of the image—this task is known as segmentation. A segmentation model returns much more detailed information about the image. Image segmentation has many applications in medical imaging, self-driving cars and satellite imaging, just to name a few.
 
 
 
-- [Loading Dataset and Exploration](https://www.tensorflow.org/datasets/catalog/oxford_iiit_pet)
+#### [Loading Dataset and Exploration](https://www.tensorflow.org/datasets/catalog/oxford_iiit_pet)
 
 
 - Exploring sizes and values in dataset
@@ -147,127 +149,96 @@ def normalize_img(data):
   image = tf.cas
 ```
 
-- Model Building
-
-
-
-
-### Correlation between the features
-  Correlation tests are often used in feature selection, where the goal is to identify the most relevant features (variables) for a predictive model. Features with high correlation with the target variable are often considered important for prediction. However, it's essential to note that correlation does not imply causation, and other factors such as domain knowledge and data quality should also be considered in feature selection.
-
-![alt text](https://github.com/vasanthgx/traffic_prediction/blob/main/images/correlation_graph_initial_dataset.png)
-
-**As we can see, there is no strong correlation between the features**
-
-## Data Cleaning and Pre Processing
-- **Pre-processing (Cleaning): Address missing (NULL) values - drop or imputation.**
-    - **we will use the ffill() method**
-    ```
-    data.ffill(inplace = True)
-    ```
+#### Model Building
+	- We first use the MobileNetV2 architecture.
+	- MobileNetV2 is very similar to the original MobileNet, except that it uses inverted residual blocks with bottlenecking features. It has a drastically lower parameter count than the original MobileNet. MobileNets support any input size greater than 32 x 32, with larger image sizes offering better performance.
+		- [This is the link for the reference paper for the MobileNetV2 pretrained model that we are using for our application](https://arxiv.org/abs/1801.04381)
+		- [This is link for the reference paper for the MobileNets : Efficient Convolutional Neural Networks for Mobile vision Applications](https://arxiv.org/abs/1704.04861)
+		- [Keras provides the MobileNetv2() function](https://www.tensorflow.org/api_docs/python/tf/keras/applications/MobileNetV2), which returns a  Keras image classification model, optionally loaded with weights pre-trained on ImageNet.
+		```
+		tf.keras.applications.MobileNetV2(
+		input_shape=None,
+		alpha=1.0,
+		include_top=True,
+		weights='imagenet',
+		input_tensor=None,
+		pooling=None,
+		classes=1000,
+		classifier_activation='softmax'
+	)
+		
+		```
 	
-- **Since we have already seen poor reperesentation of 'snow_1h' and 'rain_1h', and similarity between weather_main and  'weather_description' we will drop the three features for the model.**
-    ```
-    data1 = data.drop(['snow_1h', 'rain_1h','weather_description'] , axis =1)
-    ```
-- **Converting 'holiday' feature into just holiday and 'unknown'.**
-    ```
-    data1['holiday'] = data1['holiday'].apply(lambda x: 'unknown' if pd.isna(x) else 'holiday' ) 
-    ```
-- **Next we will first convert the 'date_time' feature into a pandas datetime object.**
-    ```
-    data1['date_time'] = pd.to_datetime(data1['date_time'], format = '%d-%m-%Y %H:%M')
-    ```
-- **We now extract the 'year', 'month', 'weekday' and 'hour' from the datetime object.**
-    ```
-    data1['year'] = data1['date_time'].dt.year
-    data1['month'] = data1['date_time'].dt.month
-    data1['weekday'] = data1['date_time'].dt.weekday
-    data1['hour'] = data1['date_time'].dt.hour
-    ```
-- **Next we will now divide the 24 hours of the day into 'before_sunrise', 'after_sunrise', 'afternoon' and 'night' categories.**
-    ```
-    data1['hour'].unique()
-    ```
-- **We will create a function ,which will split the hours into the above four categories.**
-    ```
-    def day_category(hour):
-        day_section = ''
-        if hour in [1,2,3,4,5]:
-            day_section = 'before_sunrise'
-        elif hour in [6,7,8,9,10,11,12]:
-            day_section = 'after_sunrise'
-        elif hour in [13,14, 15, 16, 17, 18]:
-            day_section = 'evening'
-        else :
-            day_section = 'night'
-        return day_section
-    ```
-- **Using the map() function to loop through the 'hour' feature and based on the hour - value we will allot the 4 day-sections. This way we will create one more feature 'day_section' in our existing dataset.**
-    ```
-    data1['day_section'] = data1['hour'].map(day_category)
-    ```
-- **Next we use the pd.get_dummies function to do one hot encoding of the categorical features 'holiday', 'weather_main' and 'day section'.**
-    ```
-    data1 = pd.get_dummies(data1, columns =['holiday', 'weather_main','day_section'])
-    ```
-- **Finally we set the feature 'date_time' as row index in our dataset.**
-    ```
-    data1.set_index('date_time',inplace = True)
-    ```
-### Correlation testing - second time
-- **After the above feature engineering.**
+	- we build a base model using the above MobileNetv2 pretrained model.
+	- Next we freeze the output of the different layers of the above CNN, to be used later as part the decoding(up-sampling) of the U-Net[see FAQ section for more details ]  architecture
+	- Next we make use of Pix2Pix model, which is a conditional generative adversarial network (GAN) architecture that learns a mapping from an input image to an output image. We build a upsampling model with this architecture.
+	- Next we make comine both the base model(down_stack - encoder ) and upsampling model (up_stack - decoder ) to build a U-Net architecturej,which is as follows
+	
+	![alt text](https://github.com/vasanthgx/petdataset_classification/blob/main/images/unet.png)
+	
+	The U-Net architecture is characterized by its symmetric encoder-decoder structure, which enables the network to capture both local and global features while preserving spatial information.
+	- Building a model using the above U-Net architecture, gives us a model with the following parameters
+	![alt text](https://github.com/vasanthgx/petdataset_classification/blob/main/images/params.png)
+	- We finally fit the model with the training dataset and run it for 10 epochs
+	```
+	history = model.fit(
+    ds_train,
+    epochs=10,
+    validation_data=ds_test,
+)
+	```
+	- Comparing the training loss with the validation loss along with the epochs
+	
+	![alt text](https://github.com/vasanthgx/petdataset_classification/blob/main/images/epochs.png)
+	
 
-    ```
-    corr_data1 = data1.corr()
-    fig, ax = plt.subplots(figsize = (15, 10))
-    plt.xticks(rotation =45)
-    sns.heatmap(corr_data1, annot = True, linewidths = .5, fmt = '.1f', ax = ax)
-    plt.show()
-    ```
-![alt text](https://github.com/vasanthgx/traffic_prediction/blob/main/images/correlation_graph_after_feature_engineering.png)
+	
+#### Evaluation
 
-![alt text](https://github.com/vasanthgx/traffic_prediction/blob/main/images/caption.png)
+- We now run the above model on the test dataset  and display the image, segmented mask and the predicted mask
+![alt text](https://github.com/vasanthgx/petdataset_classification/blob/main/images/predmask-1.png)
+![alt text](https://github.com/vasanthgx/petdataset_classification/blob/main/images/predmask-2.png)
 
-## Feature Importance and Selection Using Random Forest Regressor
 
-Feature importance and selection with the Random Forest Regressor involve identifying the most influential features in predicting the target variable.
 
-**Feature Importance:** Random Forest Regressor calculates feature importance based on how much the tree nodes that use that feature reduce impurity across all trees in the forest. Features that lead to large reductions in impurity when used at the root of a decision tree are considered more important. Random Forest assigns a score to each feature, indicating its importance. Higher scores signify more important features.
 
-**Visualizing Feature Importance:** Plotting the feature importance scores can provide insights into which features are most relevant for prediction. This visualization can aid in understanding the data and making decisions about feature selection.
+### Breed Classification
+- Making use of the fastai and timm libraries. Both are Pytorch libraries.
+	- Fastai : The fastai library is an open-source deep learning library built on top of PyTorch, designed to simplify the process of training deep learning models and enable rapid experimentation.
+	- Timm :  Short for "PyTorch Image Models," is a collection of pre-trained models for computer vision tasks implemented in PyTorch.
+- Data Loading pipeline using the ImageDataLoaders class provided by fastai
+	- Here we make use of the get_image_files(path), which retrieves the paths to all image files within the specified path (path).
+	- valid_pct=0.2: This parameter sets the percentage of the dataset to be used for validation (20% in this case).
+	- label_func=RegexLabeller(pat = r'^([^/]+)_\d+'): This specifies a regular expression pattern (pat)
+	  to extract labels from the filenames of the images. In this case, it extracts the class labels from the filenames based on the convention <class_name>_<index>.
+	- item_tfms=Resize(224): This applies image transformations to each item (image) in the dataset.  In this case, it resizes each image to have a width and height of 224 pixels.
+	```
+	dls = ImageDataLoaders.from_name_func('.',
+    get_image_files(path), valid_pct=0.2, seed=42,
+    label_func=RegexLabeller(pat = r'^([^/]+)_\d+'),
+    item_tfms=Resize(224))
+	
+	```
+- Data display 
+![alt text](https://github.com/vasanthgx/petdataset_classification/blob/main/images/fastai-1.png)
 
-![alt text](https://github.com/vasanthgx/traffic_prediction/blob/main/images/feature_selection.png)
+- Model Training with  resnet34 function from fastai library
+	- fine tuning with 3 epochs. We get the following error rates
+	![alt text](https://github.com/vasanthgx/petdataset_classification/blob/main/images/er1.png)
+- Next we train with a different model from the timm library - 'convnext_tiny_in22k'
+	- fine tuning with 3 epochs. We get better results than the previous one.
+	![alt text](https://github.com/vasanthgx/petdataset_classification/blob/main/images/er2.png)
+- Evaluation of the classifier 
+	- with a basset hound breed of dog
+	![alt text](https://github.com/vasanthgx/petdataset_classification/blob/main/images/basset.png)
+	- prediction as below
+	![alt text](https://github.com/vasanthgx/petdataset_classification/blob/main/images/99.png)
+	
+	
+	
+	
 
-In summary, feature importance and selection with Random Forest Regressor involve identifying and prioritizing features based on their contribution to predicting the target variable. This process can enhance model performance, interpretability, and understanding of the underlying data.
 
-## Model Development
-
-- **we will select just the top 7 features that we got from the Random Forest Regressor**
-    ```
-    important_features = [ 'hour','temp','weekday','day_section_night','month', 'year','clouds_all']
-    ```
-- Splitting the dataset into training and **validation set**. This validation set is to test our model internally before submitting it to the test set
-    - *Note : we have already been provided the test data set for the hackathon*
-
-- **Scaling : we do the scaling of the data using the StandardScaler() function from sklearn**
-
-- **Experimenting with different models , so that we can select the best model for our submision**
-
-![alt text](https://github.com/vasanthgx/traffic_prediction/blob/main/images/experimenting_models.png)
-
-- **Selecting the best model**
-    ```
-    regrh = HistGradientBoostingRegressor(random_state=32)
-    regrh.fit(x_train_scaled, y_train)
-    y_pred = regrh.predict(x_test_scaled)
-    print(f"r2 score : {r2_score(y_test, y_pred)} \n mean squared error : {mean_squared_error(y_test, y_pred)} \n mean absolute error : {mean_absolute_error(y_test,y_pred)} ")
-    ```
-
-## Testing and Creating Output CSV
-
-- **we repeat the same process of data cleaing, pre processing, scaling etc with the test data.**
-- **finally we submit the submission file.**
 
 
 ## Key Takeaways
@@ -379,7 +350,21 @@ Components and concepts in CNNs:
 
 CNNs have revolutionized the field of computer vision and have achieved state-of-the-art performance on various image-related tasks, including image classification, object detection, image segmentation, and more. They have also been adapted for other types of structured data, such as time-series data and 1D signal processing.
 
-### 4) What is U-Net arhitecture ?
+### 4) What is Pix2Pix?
+
+Pix2Pix is a type of conditional generative adversarial network (GAN) architecture that learns a mapping from an input image to an output image. Specifically, it is designed for image-to-image translation tasks, where the goal is to generate a corresponding output image based on a given input image. Pix2Pix was introduced by Phillip Isola et al. in their 2016 paper titled "Image-to-Image Translation with Conditional Adversarial Networks."
+
+Overview of how Pix2Pix works:
+
+1) **Conditional GAN Framework**: Pix2Pix extends the basic GAN framework by introducing a conditional setting. In a traditional GAN, the generator network takes random noise as input and generates fake images, while the discriminator network distinguishes between real and fake images. In Pix2Pix, both the generator and discriminator networks receive not only the generated/fake images but also the corresponding input images as conditional inputs.
+2) **Generator Network**: The generator network in Pix2Pix takes an input image and produces an output image that is transformed in some way based on the input. This transformation could involve changing the style, color, texture, or any other characteristics of the input image. The generator typically consists of an encoder-decoder architecture, with convolutional layers for feature extraction and upsampling layers for increasing the resolution of the output image.
+3) **Discriminator Network**: The discriminator network in Pix2Pix evaluates pairs of images (input image, corresponding output image) and distinguishes between real pairs (input-output pairs from the training dataset) and fake pairs (input image, generated output image pairs). The discriminator is trained to differentiate between real and fake pairs, while the generator is trained to fool the discriminator by generating realistic output images.
+4) **Training Objective**: Pix2Pix uses an adversarial loss, computed by the discriminator, to encourage the generator to produce output images that are indistinguishable from real images. Additionally, Pix2Pix also employs a pixel-wise L1 loss between the generated output image and the ground truth output image to ensure that the generated images are visually similar to the target images.
+5) **Applications**: Pix2Pix can be applied to various image-to-image translation tasks, such as converting sketches to color images, generating satellite images from map images, converting day-time images to night-time images, and more.
+
+Overall, Pix2Pix has demonstrated impressive results in a wide range of image translation tasks, making it a powerful tool for image synthesis and manipulation.
+
+### 5) What is U-Net arhitecture ?
 
 U-Net is a popular convolutional neural network architecture designed for semantic segmentation tasks, particularly in medical image analysis, where precise pixel-level segmentation is required. It was introduced by Olaf Ronneberger, Philipp Fischer, and Thomas Brox in their [2015 paper titled](https://arxiv.org/abs/1505.04597) **"U-Net: Convolutional Networks for Biomedical Image Segmentation."**
 
