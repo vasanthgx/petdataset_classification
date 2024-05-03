@@ -23,7 +23,7 @@ This project aims to demonstrate the application of machine learning techniques 
 
 ## Project Overview
 
-n this project, we have developed a machine learning pipeline that combines state-of-the-art techniques for image segmentation and breed classification. The pipeline processes input images of dogs, performs semantic segmentation to identify distinct regions within the images, and subsequently classifies the breed of the dog present in each segmented region.
+In this project, we have developed a machine learning pipeline that combines state-of-the-art techniques for image segmentation and breed classification. The pipeline processes input images of dogs, performs semantic segmentation to identify distinct regions within the images, and subsequently classifies the breed of the dog present in each segmented region.
 
 ## Key Features
 
