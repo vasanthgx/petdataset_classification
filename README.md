@@ -67,11 +67,24 @@ Image('/content/images/Abyssinian_1.jpg')
 
 ### Creating a Segmentation Mask using the Skimage library
 
-- Let us further explore the data distribution of each of the 4 numerical features plus the target of the data 'traffic_volume'.
-![alt text](https://github.com/vasanthgx/traffic_prediction/blob/main/images/trafficVol_temp_univariate.png)
-![alt text](https://github.com/vasanthgx/traffic_prediction/blob/main/images/rain_snow_graph.png)
-![alt text](https://github.com/vasanthgx/traffic_prediction/blob/main/images/clouds_all_univariate.png)
-**We can clearly see from the above graphs, there is poor representation of rain_1h and snow_1h in the dataset**
+- Let us first segment the images with Otsu Thresholding ( details in the FAQ section )
+
+![alt text](https://github.com/vasanthgx/petdataset_classification/blob/main/images/segmask-1.png)
+
+- We illustrate how to apply one of these thresholding algorithms. Otsu’s method calculates an “optimal” threshold (marked by a red line in the histogram below) by maximizing the variance between two classes of pixels, which are separated by the threshold. Equivalently, this threshold minimizes the intra-class variance.
+
+![alt text](https://github.com/vasanthgx/petdataset_classification/blob/main/images/otsu-2.png)
+
+- If you are not familiar with the details of the different algorithms and the underlying assumptions, it is often difficult to know which algorithm will give the best results. Therefore, Scikit-image includes a function to evaluate thresholding algorithms provided by the library. At a glance, you can select the best algorithm for your data without a deep understanding of their mechanisms.
+
+![alt text](https://github.com/vasanthgx/petdataset_classification/blob/main/images/motsu-1.png)
+![alt text](https://github.com/vasanthgx/petdataset_classification/blob/main/images/motsu-2.png)
+
+
+
+
+
+
 
 - Next we will explore the Categorical features 'holiday', and 'weather_main'.
 
@@ -255,23 +268,28 @@ The next steps would be
 
 ## FAQ
 
-### 1) How does the HistGradientBoostingRegressor model work ?
+### 1) What is Otsu Thresholding and  its significance in Object Segmentaion ?
 
-[HistGradientBoostingRegressor is a gradient boosting machine learning algorithm introduced in scikit-learn.](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.HistGradientBoostingRegressor.html)
+[Thresholding is used to create a binary image from a grayscale image .](https://scikit-image.org/docs/stable/auto_examples/segmentation/plot_thresholding.html)
+[More Details](https://en.wikipedia.org/wiki/Otsu's_method)
 
-1. **Histogram-based Approach**: Unlike traditional gradient boosting methods, HistGradientBoostingRegressor operates on histograms of the features, which improves computational efficiency, especially for large datasets.
+Otsu thresholding, named after Nobuyuki Otsu, is a popular method used for automatic image thresholding. The goal of thresholding is to segment an image into two parts: foreground and background, or object and background, based on pixel intensity. Otsu's method calculates an optimal threshold value by maximizing the between-class variance of the pixel intensities.
 
-2. **Gradient Boosting Technique**: It builds an ensemble of decision trees sequentially, where each tree corrects the errors made by the previous trees. It minimizes a loss function, typically mean squared error (MSE) for regression tasks, by iteratively fitting new trees to the residuals of the previous predictions.
+Here's a simplified explanation of how it works:
 
-3. **Gradient and Hessian Computation**: It approximates the gradient and the Hessian of the loss function for each histogram bin, which allows for efficient computation of the split points during tree construction.
+1) Initially, Otsu's method considers all possible threshold values between the minimum and maximum intensity levels in the image.
+2) For each potential threshold value, it divides the pixels into two classes: those with intensities below the threshold and those with intensities above the threshold.
+3) Then, it calculates the variances of these two classes.
+4) Otsu's method selects the threshold value that maximizes the between-class variance, meaning it chooses the threshold where the difference in intensity between the two classes is the most significant.
 
-4. **Regularization and Shrinkage**: HistGradientBoostingRegressor incorporates regularization techniques like shrinkage and tree pruning to prevent overfitting and improve generalization performance.
 
-5. **Quantile Estimation**: It supports quantile regression, allowing the estimation of conditional quantiles of the target variable, which is useful for uncertainty estimation and prediction intervals.
+The significance of Otsu thresholding in object segmentation lies in its ability to **automatically determine an optimal threshold value without requiring manual intervention**. This is particularly useful in scenarios where the image has varying lighting conditions or when the desired object has a distinct contrast with the background. By accurately separating the foreground object from the background based on intensity, **Otsu thresholding forms the foundation for many image processing tasks such as object detection, recognition, and tracking**. It simplifies the process and makes it more robust and adaptable to different types of images.
 
-6. **Parallelism and Efficiency**: It utilizes multi-threading and other optimizations to efficiently handle large datasets and improve training speed.
 
-Overall, HistGradientBoostingRegressor combines the benefits of histogram-based techniques with the power of gradient boosting, resulting in a highly efficient and scalable algorithm for regression tasks.
+
+
+
+
 
 ### 2) How do you train the model on a new dataset?
 
