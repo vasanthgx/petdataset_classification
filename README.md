@@ -137,6 +137,7 @@ In an image classification task, the network assigns a label (or class) to each 
 ![alt text](https://github.com/vasanthgx/petdataset_classification/blob/main/images/segmask-tf-1.png)
 
 - Pre-processing 
+
 	- Normalize : we use the tf.cast( ) function to convert the images and masks  to float32 type and then divide them by 255.
 ```
 
@@ -146,15 +147,27 @@ def normalize_img(data):
   mask = data['segmentation_mask']
   image = tf.image.resize(image, [128, 128])
   mask = tf.image.resize(mask, [128, 128], method='nearest')
-  image = tf.cas
+  image = tf.cast(image, tf.float32) / 255.0
+  mask = tf.cast(mask-1, tf.float32)
+  return image, mask
+
+  # 1-1 = 0
+  # 2-1 = 1
+  # 3-1 = 2
 ```
 
 #### Model Building
 	- We first use the MobileNetV2 architecture.
-	- MobileNetV2 is very similar to the original MobileNet, except that it uses inverted residual blocks with bottlenecking features. It has a drastically lower parameter count than the original MobileNet. MobileNets support any input size greater than 32 x 32, with larger image sizes offering better performance.
+	- MobileNetV2 is very similar to the original MobileNet, except that it uses inverted residual blocks with bottlenecking features.
+	It has a drastically lower parameter count than the original MobileNet.
+	MobileNets support any input size greater than 32 x 32, with larger image sizes offering better performance.
 		- [This is the link for the reference paper for the MobileNetV2 pretrained model that we are using for our application](https://arxiv.org/abs/1801.04381)
+		
 		- [This is link for the reference paper for the MobileNets : Efficient Convolutional Neural Networks for Mobile vision Applications](https://arxiv.org/abs/1704.04861)
-		- [Keras provides the MobileNetv2() function](https://www.tensorflow.org/api_docs/python/tf/keras/applications/MobileNetV2), which returns a  Keras image classification model, optionally loaded with weights pre-trained on ImageNet.
+		
+		- [Keras provides the MobileNetv2() function](https://www.tensorflow.org/api_docs/python/tf/keras/applications/MobileNetV2),
+		which returns a  Keras image classification model, optionally loaded with weights pre-trained on ImageNet.
+		
 ```
 		tf.keras.applications.MobileNetV2(
 		input_shape=None,
@@ -170,13 +183,17 @@ def normalize_img(data):
 ```
 	
 	- we build a base model using the above MobileNetv2 pretrained model.
-	- Next we freeze the output of the different layers of the above CNN, to be used later as part the decoding(up-sampling) of the U-Net[see FAQ section for more details ]  architecture
-	- Next we make use of Pix2Pix model, which is a conditional generative adversarial network (GAN) architecture that learns a mapping from an input image to an output image. We build a upsampling model with this architecture.
-	- Next we make combine both the base model(down_stack - encoder ) and upsampling model (up_stack - decoder ) to build a U-Net architecturej,which is as follows
+	- Next we freeze the output of the different layers of the above CNN, 
+	to be used later as part the decoding(up-sampling) of the U-Net[see FAQ section for more details ]  architecture
+	- Next we make use of Pix2Pix model, which is a conditional generative adversarial network (GAN) 
+	architecture that learns a mapping from an input image to an output image. We build a upsampling model with this architecture.
+	- Next we make combine both the base model(down_stack - encoder ) and upsampling model (up_stack - decoder )
+	to build a U-Net architecturej,which is as follows
 	
 	![alt text](https://github.com/vasanthgx/petdataset_classification/blob/main/images/unet.png)
 	
-	The U-Net architecture is characterized by its symmetric encoder-decoder structure, which enables the network to capture both local and global features while preserving spatial information.
+	The U-Net architecture is characterized by its symmetric encoder-decoder structure,
+	which enables the network to capture both local and global features while preserving spatial information.
 	- Building a model using the above U-Net architecture, gives us a model with the following parameters
 	
 	![alt text](https://github.com/vasanthgx/petdataset_classification/blob/main/images/params.png)
