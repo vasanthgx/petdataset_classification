@@ -34,7 +34,7 @@ n this project, we have developed a machine learning pipeline that combines stat
 - **Image Segmentation**: We utilize advanced convolutional neural network (CNN) architectures to perform semantic segmentation, enabling precise delineation of different objects or regions within the input images.
 - **Breed Classification**: Leveraging transfer learning, we fine-tune pre-trained CNN models to classify the breed of dogs present in the segmented regions. This allows us to achieve high accuracy even with limited training data.
 - **End-to-End Pipeline**: Our project provides a seamless end-to-end solution for image segmentation and breed classification, enabling users to input raw images and obtain detailed segmentation masks along with breed predictions.
-- **Model Deployment**: We have deployed the project in HuggingSpaces through Gradio Application.
+- **Model Deployment**: [We have deployed the project in HuggingSpaces through Gradio Application.](https://huggingface.co/spaces/Vasanthgx/oxford_pets_breed_classification)
 
 ![alt text](https://github.com/vasanthgx/petdataset_classification/blob/main/images/gradio.png)
 
