@@ -172,20 +172,22 @@ def normalize_img(data):
 	- we build a base model using the above MobileNetv2 pretrained model.
 	- Next we freeze the output of the different layers of the above CNN, to be used later as part the decoding(up-sampling) of the U-Net[see FAQ section for more details ]  architecture
 	- Next we make use of Pix2Pix model, which is a conditional generative adversarial network (GAN) architecture that learns a mapping from an input image to an output image. We build a upsampling model with this architecture.
-	- Next we make comine both the base model(down_stack - encoder ) and upsampling model (up_stack - decoder ) to build a U-Net architecturej,which is as follows
+	- Next we make combine both the base model(down_stack - encoder ) and upsampling model (up_stack - decoder ) to build a U-Net architecturej,which is as follows
 	
 	![alt text](https://github.com/vasanthgx/petdataset_classification/blob/main/images/unet.png)
 	
 	The U-Net architecture is characterized by its symmetric encoder-decoder structure, which enables the network to capture both local and global features while preserving spatial information.
 	- Building a model using the above U-Net architecture, gives us a model with the following parameters
+	
 	![alt text](https://github.com/vasanthgx/petdataset_classification/blob/main/images/params.png)
+	
 	- We finally fit the model with the training dataset and run it for 10 epochs
 	```
 	history = model.fit(
     ds_train,
     epochs=10,
     validation_data=ds_test,
-)
+							)
 	```
 	- Comparing the training loss with the validation loss along with the epochs
 	
