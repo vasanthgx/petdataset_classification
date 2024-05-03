@@ -82,6 +82,14 @@ Image('/content/images/Abyssinian_1.jpg')
 ![alt text](https://github.com/vasanthgx/petdataset_classification/blob/main/images/motsu-1.png)
 ![alt text](https://github.com/vasanthgx/petdataset_classification/blob/main/images/motsu-2.png)
 
+- [Multi Otsu Thresholding](https://scikit-image.org/docs/stable/auto_examples/segmentation/plot_multiotsu.html#sphx-glr-auto-examples-segmentation-plot-multiotsu-py) The multi-Otsu threshold [1] is a thresholding algorithm that is used to separate the pixels of an input image into several different classes, each one obtained according to the intensity of the gray levels within the image.
+
+Multi-Otsu calculates several thresholds, determined by the number of desired classes. The default number of classes is 3: for obtaining three classes, the algorithm returns two threshold values. They are represented by a red line in the histogram below.
+
+![alt text](https://github.com/vasanthgx/petdataset_classification/blob/main/images/motsu-3.png)
+
+
+
 
 
 
