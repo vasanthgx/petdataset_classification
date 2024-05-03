@@ -165,9 +165,9 @@ def normalize_img(data):
 	
 [This is the link for the reference paper](https://arxiv.org/abs/1801.04381) for the MobileNetV2 pretrained model that we are using for our application
 		
-[This is link for the reference paper for the MobileNets] :(https://arxiv.org/abs/1704.04861) Efficient Convolutional Neural Networks for Mobile vision Applications
+[This is link for the reference paper for the MobileNets](https://arxiv.org/abs/1704.04861) - Efficient Convolutional Neural Networks for Mobile vision Applications
 		
-[Keras provides the MobileNetv2() function](https://www.tensorflow.org/api_docs/python/tf/keras/applications/MobileNetV2)which returns a  Keras image classification model, optionally loaded with weights pre-trained on ImageNet.
+[Keras provides the MobileNetv2() function](https://www.tensorflow.org/api_docs/python/tf/keras/applications/MobileNetV2) which returns a  Keras image classification model, optionally loaded with weights pre-trained on ImageNet.
 		
 ```
 		tf.keras.applications.MobileNetV2(
