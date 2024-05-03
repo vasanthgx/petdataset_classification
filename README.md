@@ -73,6 +73,8 @@ Image('/content/images/Abyssinian_1.jpg')
 
 - We illustrate how to apply one of these thresholding algorithms. Otsu’s method calculates an “optimal” threshold (marked by a red line in the histogram below) by maximizing the variance between two classes of pixels, which are separated by the threshold. Equivalently, this threshold minimizes the intra-class variance.
 
+![alt text](https://github.com/vasanthgx/petdataset_classification/blob/main/images/hist.gif)
+
 ![alt text](https://github.com/vasanthgx/petdataset_classification/blob/main/images/otsu-2.png)
 
 - If you are not familiar with the details of the different algorithms and the underlying assumptions, it is often difficult to know which algorithm will give the best results. Therefore, Scikit-image includes a function to evaluate thresholding algorithms provided by the library. At a glance, you can select the best algorithm for your data without a deep understanding of their mechanisms.
