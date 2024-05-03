@@ -258,7 +258,7 @@ def normalize_img(data):
 	```
 - Breed Classifier application
 
-	![alt text](https://github.com/vasanthgx/petdataset_classification/blob/main/images/gradio2.png)
+	![alt text](https://github.com/vasanthgx/petdataset_classification/blob/main/images/gradio3.png)
 	
 
 
