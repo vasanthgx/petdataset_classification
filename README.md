@@ -34,7 +34,7 @@ n this project, we have developed a machine learning pipeline that combines stat
 - **Image Segmentation**: We utilize advanced convolutional neural network (CNN) architectures to perform semantic segmentation, enabling precise delineation of different objects or regions within the input images.
 - **Breed Classification**: Leveraging transfer learning, we fine-tune pre-trained CNN models to classify the breed of dogs present in the segmented regions. This allows us to achieve high accuracy even with limited training data.
 - **End-to-End Pipeline**: Our project provides a seamless end-to-end solution for image segmentation and breed classification, enabling users to input raw images and obtain detailed segmentation masks along with breed predictions.
-- **Model Deployment**: [We have deployed the project in HuggingSpaces through Gradio Application.](https://huggingface.co/spaces/Vasanthgx/oxford_pets_breed_classification)
+- **Model Deployment**: [We have deployed the project in  Huggingface / Spaces through Gradio Application.](https://huggingface.co/spaces/Vasanthgx/oxford_pets_breed_classification)
 
 ![alt text](https://github.com/vasanthgx/petdataset_classification/blob/main/images/gradio.png)
 
@@ -158,6 +158,7 @@ def normalize_img(data):
 ```
 
 #### Model Building
+
 	- We first use the MobileNetV2 architecture.
 	- MobileNetV2 is very similar to the original MobileNet, except that it uses inverted residual blocks with bottlenecking features.
 	It has a drastically lower parameter count than the original MobileNet.
@@ -191,13 +192,13 @@ def normalize_img(data):
 	- Next we make combine both the base model(down_stack - encoder ) and upsampling model (up_stack - decoder )
 	to build a U-Net architecturej,which is as follows
 	
-	![alt text](https://github.com/vasanthgx/petdataset_classification/blob/main/images/unet.png)
+![alt text](https://github.com/vasanthgx/petdataset_classification/blob/main/images/unet.png)
 	
 	The U-Net architecture is characterized by its symmetric encoder-decoder structure,
 	which enables the network to capture both local and global features while preserving spatial information.
 	- Building a model using the above U-Net architecture, gives us a model with the following parameters
 	
-	![alt text](https://github.com/vasanthgx/petdataset_classification/blob/main/images/params.png)
+![alt text](https://github.com/vasanthgx/petdataset_classification/blob/main/images/params.png)
 	
 	- We finally fit the model with the training dataset and run it for 10 epochs
 	
@@ -210,7 +211,7 @@ def normalize_img(data):
 ```
 	- Comparing the training loss with the validation loss along with the epochs
 	
-	![alt text](https://github.com/vasanthgx/petdataset_classification/blob/main/images/epochs.png)
+![alt text](https://github.com/vasanthgx/petdataset_classification/blob/main/images/epochs.png)
 	
 
 	
