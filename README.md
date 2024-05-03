@@ -12,11 +12,7 @@
 <br><br>
 
 
-# Table of Contents
-1) [Introduction](##Introduction)
-2) [Project Overview](##ProjectOverview)
-3) [Key Features](##Key Features)
-4) [FAQ](FAQ)
+
 
 
 
@@ -38,14 +34,14 @@ n this project, we have developed a machine learning pipeline that combines stat
 
 ![alt text](https://github.com/vasanthgx/petdataset_classification/blob/main/images/gradio.png)
 
-## Implementation Details
+### Implementation Details
 
 - Dataset: The Oxford-IIIT Pet Dataset (view below for more details)
 - Model: [MobileNetV2]('https://keras.io/api/applications/mobilenet/')
 - Input: 37 category pet dataset with roughly 200 images for each class
 - Output: Segmentation mask , Breed classification
 
-## Dataset Details
+### Dataset Details
 
 [This dataset was obtained from this repository](https://www.robots.ox.ac.uk/~vgg/data/pets/)
 
